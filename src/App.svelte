@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   import { onMount } from "svelte";
 
   const end = new Date();
-  const start = new Date(end - 60 * 60 * 1000);
+  const start = new Date(end.getTime() - 60 * 60 * 1000);
 
   let startTime = date2Str(start);
   let endTime = date2Str(end);
