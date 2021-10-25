@@ -1,82 +1,34 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+	import { sourceState } from './stores/source';
 
-  const end = new Date();
-  const start = new Date(end.getTime() - 60 * 60 * 1000);
-
-  let startTime = date2Str(start);
-  let endTime = date2Str(end);
-  let originalUrl;
-  let tabId;
-  let newUrl;
-
-  const epochRgex = /(.*)startTime\/([0-9]+)\/endTime\/([0-9]+)(.*)/;
-
-  $: if (originalUrl) {
-    const match = originalUrl.match(epochRgex);
-    const startEpoch = Date.parse(startTime);
-    const endEpoch = Date.parse(endTime);
-
-    if (!isNaN(startEpoch) && !isNaN(endEpoch)) {
-      if (match && match.length >= 5) {
-        const head = match[1];
-        // const epochStart = match[2];
-        // const epochEnd = match[3];
-        const tail = match[4];
-        newUrl = `${head}startTime/${startEpoch}/endTime/${endEpoch}${tail}`;
-      } else {
-        newUrl = "invalid";
-      }
-    } else {
-      newUrl = "invalid";
-    }
-  }
-
-  onMount(async () => {
-    // const res = await fetch(`https://jsonplaceholder.typicode.com/photos?_limit=20`);
-    // photos = await res.json();
-    const tabs = await chrome.tabs.query({
-      active: true,
-      lastFocusedWindow: true,
-    });
-
-    originalUrl = tabs[0].url;
-    tabId = tabs[0].id;
-  });
-
-  async function submit() {
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    await chrome.tabs.update(tab.id, { url: newUrl });
-    // chrome.tabs.reload(tab.id), { bypassCache: true };
-
-    await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: () => {
-        window.location.replace(newUrl);
-        window.location.reload();
-      },
-    });
-  }
-
-  function date2Str(datetime) {
-    const date = datetime.toISOString().substring(0, 10);
-    const time = datetime.toISOString().substring(11, 19);
-    return `${date} ${time}`;
-  }
+	import PresetButtons from './lib/PresetButtons.svelte';
+	import DateRangeForm from './lib/DateRangeForm.svelte';
+	import Source from './lib/Source.svelte';
+	import Result from './lib/Result.svelte';
 </script>
 
-<div>Start time</div>
-<input bind:value={startTime} />
+<main class="px-8 py-5">
+	<Source />
 
-<div>End time</div>
-<input bind:value={endTime} />
+	{#if $sourceState.status === 'loading'}
+		<h1>Loading ...</h1>
+	{/if}
 
-<button on:click={submit}>Submit</button>
+	{#if $sourceState.status === 'error'}
+		<h1>Unsuppprted URL</h1>
+	{/if}
 
-<div>{startTime}</div>
-<div>{originalUrl}</div>
-<div>{newUrl}</div>
+	{#if $sourceState.status === 'success'}
+		<DateRangeForm />
 
-<style>
+		<PresetButtons />
+
+		<Result />
+	{/if}
+</main>
+
+<style global lang="postcss">
+	@tailwind base;
+	@tailwind components;
+	@tailwind utilities;
 </style>
