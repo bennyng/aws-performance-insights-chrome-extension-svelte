@@ -7,7 +7,7 @@
 	import Result from './lib/Result.svelte';
 </script>
 
-<main class="px-8 py-5">
+<main class="px-2 py-2">
 	<Source />
 
 	{#if $sourceState.status === 'loading'}
