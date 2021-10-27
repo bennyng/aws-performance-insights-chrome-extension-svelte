@@ -1,37 +1,34 @@
 import { writable } from 'svelte/store';
 import type { DateRange } from './types';
+import { DateTime } from 'luxon';
 
 export const dateRange = writable<DateRange>(oneHour());
+
 export const useOneHour = (): void => dateRange.set(oneHour());
 export const useThreeHour = (): void => dateRange.set(threeHour());
 
-function date2Str(datetime) {
-	const date = datetime.toISOString().substring(0, 10);
-	const time = datetime.toISOString().substring(11, 19);
-	return `${date} ${time}`;
-}
-
 function oneHour(): DateRange {
-	const end = new Date();
-	const start = new Date(end.getTime() - 60 * 60 * 1000);
-
-	const startTime = date2Str(start);
-	const endTime = date2Str(end);
-
-	return {
-		startTime,
-		endTime
-	};
+	return ago(1 * 60 * 60 * 1000);
 }
 
 function threeHour(): DateRange {
-	const end = new Date();
-	const start = new Date(end.getTime() - 3 * 60 * 60 * 1000);
+	return ago(3 * 60 * 60 * 1000);
+}
 
-	const startTime = date2Str(start);
-	const endTime = date2Str(end);
+function ago(agoMs): DateRange {
+	const format = 'yyyy-MM-dd HH:mm:ss';
+	const utcOffset = 1;
+	// const now = DateTime.fromISO(DateTime.now().toISO(), { zone: 'Europe/Paris' });
+	const now = DateTime.fromISO(DateTime.utc().toISO(), { zone: `utc+${utcOffset}` });
+	const end = now;
+	const start = end.minus(agoMs);
+
+	const startTime = start.toFormat(format);
+	const endTime = end.toFormat(format);
 
 	return {
+		format,
+		utcOffset,
 		startTime,
 		endTime
 	};

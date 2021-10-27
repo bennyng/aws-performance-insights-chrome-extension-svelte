@@ -1,4 +1,5 @@
 import { derived } from 'svelte/store';
+import { DateTime } from 'luxon';
 import type { ResultState } from './types';
 import { dateRange } from './date-range';
 import { sourceState } from './source';
@@ -12,8 +13,13 @@ export const resultState = derived(
 		}
 
 		const match = $sourceState.data.sourceUrl.match(epochRgex);
-		const startEpoch = Date.parse($dateRange.startTime);
-		const endEpoch = Date.parse($dateRange.endTime);
+
+		const format = $dateRange.format;
+		const options = {
+			zone: `utc+${$dateRange.utcOffset}`
+		};
+		const startEpoch = DateTime.fromFormat($dateRange.startTime, format, options).toMillis();
+		const endEpoch = DateTime.fromFormat($dateRange.endTime, format, options).toMillis();
 
 		if (!isNaN(startEpoch) && !isNaN(endEpoch)) {
 			if (match && match.length >= 5) {
