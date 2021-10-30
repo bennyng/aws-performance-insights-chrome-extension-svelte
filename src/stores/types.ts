@@ -1,6 +1,4 @@
 export type DateRange = {
-	format: string;
-	utcOffset: number;
 	startTime: string;
 	endTime: string;
 };

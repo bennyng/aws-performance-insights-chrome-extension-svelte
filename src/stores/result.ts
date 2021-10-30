@@ -1,22 +1,22 @@
 import { derived } from 'svelte/store';
 import { DateTime } from 'luxon';
 import type { ResultState } from './types';
-import { dateRange } from './date-range';
+import { dateRange, utcOffset } from './date-range';
 import { sourceState } from './source';
-import { epochRgex } from './constants';
+import { dateFormat, epochRgex } from './constants';
 
 export const resultState = derived(
-	[sourceState, dateRange],
-	([$sourceState, $dateRange]): ResultState => {
+	[sourceState, dateRange, utcOffset],
+	([$sourceState, $dateRange, $utcOffset]): ResultState => {
 		if (!$sourceState || $sourceState.status !== 'success') {
 			return { status: 'loading' };
 		}
 
 		const match = $sourceState.data.sourceUrl.match(epochRgex);
 
-		const format = $dateRange.format;
+		const format = dateFormat;
 		const options = {
-			zone: `utc+${$dateRange.utcOffset}`
+			zone: `utc+${$utcOffset}`
 		};
 		const startEpoch = DateTime.fromFormat($dateRange.startTime, format, options).toMillis();
 		const endEpoch = DateTime.fromFormat($dateRange.endTime, format, options).toMillis();
