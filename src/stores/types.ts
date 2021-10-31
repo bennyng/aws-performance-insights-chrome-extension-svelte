@@ -10,7 +10,7 @@ export type SourceData = {
 export type SourceState =
 	| { status: 'loading' }
 	| { status: 'success'; data: SourceData }
-	| { status: 'error'; error: string };
+	| { status: 'unsupported_url' };
 
 export type ResultData = {
 	resultUrl: string;

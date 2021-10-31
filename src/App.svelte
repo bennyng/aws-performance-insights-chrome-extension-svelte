@@ -1,28 +1,26 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { sourceState } from './stores/source';
+	import { resultState } from './stores/result';
 
-	import PresetButtons from './lib/PresetButtons.svelte';
 	import DateRangeForm from './lib/DateRangeForm.svelte';
-	import Source from './lib/Source.svelte';
+	import Loading from './lib/Loading.svelte';
+	import UnsupportedURL from './lib/UnsupportedURL.svelte';
+
 	import Result from './lib/Result.svelte';
+
+	onMount(async () => {
+		sourceState.readUrl();
+	});
 </script>
 
-<main class="px-2 py-2">
-	<Source />
-
+<main class="w-100 flex flex-col justify-center items-start mx-auto px-2 py-2">
 	{#if $sourceState.status === 'loading'}
-		<h1>Loading ...</h1>
-	{/if}
-
-	{#if $sourceState.status === 'error'}
-		<h1>Unsuppprted URL</h1>
-	{/if}
-
-	{#if $sourceState.status === 'success'}
+		<Loading />
+	{:else if $sourceState.status === 'unsupported_url'}
+		<UnsupportedURL />
+	{:else}
 		<DateRangeForm />
-
-		<PresetButtons />
-
 		<Result />
 	{/if}
 </main>
@@ -31,4 +29,8 @@
 	@tailwind base;
 	@tailwind components;
 	@tailwind utilities;
+
+	html {
+		font-size: 12px;
+	}
 </style>

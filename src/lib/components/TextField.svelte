@@ -5,14 +5,15 @@
 </script>
 
 {#if label}
-	<label class="block text-gray-700 text-sm font-bold mb-2" for={id}> {label} </label>
+	<label for={id} class="block text-sm font-medium text-gray-700">{label}</label>
 {/if}
-
 <input
 	bind:value
 	on:input
-	class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-	{id}
 	type="text"
+	name={id}
+	{id}
+	autocomplete={id}
+	class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
 	{label}
 />

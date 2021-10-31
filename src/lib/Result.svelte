@@ -2,6 +2,8 @@
 	import { resultState } from '../stores/result';
 	import Button from '../lib/components/Button.svelte';
 
+	$: submitDisabled = $resultState.status !== 'success';
+
 	async function submit() {
 		if (!$resultState || $resultState.status !== 'success') {
 			throw new Error('Invalid result URL');
@@ -23,20 +25,29 @@
 			}
 		});
 	}
+
+	async function copyToClipboard() {
+		if ($resultState.status === 'success') {
+			// $resultState.data.resultUrl
+		}
+	}
 </script>
 
-<h3>Result URL</h3>
+<div class="px-0 mt-4">
+	<h5 class="text-md font-medium leading-6 text-gray-900">Result URL</h5>
+</div>
 
-{#if $resultState.status === 'success'}
-	<h3>{$resultState.data.resultUrl}</h3>
-{/if}
+<div class="w-full flex flex-col justify-center items-start">
+	{#if $resultState.status === 'success'}
+		<div class="w-full shadow break-all text-sm bg-white-md px-2 py-2 sm:p-4">
+			{$resultState.data.resultUrl}
+		</div>
 
-{#if $resultState.status === 'loading'}
-	<h3>Loading</h3>
-{/if}
-
-{#if $resultState.status === 'error'}
-	<h3>{$resultState.error}</h3>
-{/if}
-
-<Button on:click={submit}>Submit</Button>
+		<div class="w-full flex flex-row justify-between mt-4">
+			<Button disabled={submitDisabled} on:click={submit}>Open</Button>
+			<Button disabled={submitDisabled} on:click={copyToClipboard}>Copy</Button>
+		</div>
+	{:else if $resultState.status === 'error'}
+		<h3>{$resultState.error}</h3>
+	{/if}
+</div>

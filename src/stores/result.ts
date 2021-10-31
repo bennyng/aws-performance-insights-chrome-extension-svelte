@@ -8,8 +8,12 @@ import { dateFormat, epochRgex } from './constants';
 export const resultState = derived(
 	[sourceState, dateRange, utcOffset],
 	([$sourceState, $dateRange, $utcOffset]): ResultState => {
-		if (!$sourceState || $sourceState.status !== 'success') {
+		if (!$sourceState || $sourceState.status === 'loading') {
 			return { status: 'loading' };
+		}
+
+		if ($sourceState.status === 'unsupported_url') {
+			return { status: 'error', error: 'unsupported_url' };
 		}
 
 		const match = $sourceState.data.sourceUrl.match(epochRgex);
@@ -35,6 +39,7 @@ export const resultState = derived(
 				};
 			}
 		}
-		return { status: 'error', error: 'ERROR!' };
+
+		return { status: 'error', error: 'Failed to generate' };
 	}
 );

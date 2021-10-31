@@ -9,11 +9,17 @@ module.exports = {
 				awesome: {
 					DEFAULT: '#f72585'
 				}
+			},
+			spacing: {
+				100: '18rem'
+			},
+			minWidth: {
+				100: '12rem'
 			}
 		}
 	},
 	variants: {
 		extend: {}
 	},
-	plugins: []
+	plugins: [require('@tailwindcss/forms')]
 };
