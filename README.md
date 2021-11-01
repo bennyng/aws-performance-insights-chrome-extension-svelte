@@ -111,12 +111,13 @@ surge public my-project.surge.sh
 - [x] chrome extension PoC - able to load extension from public folder in Chrome
 - [x] detect and replace url with modified start/end timestamps
 - [x] user can select timezone or be detected
+- [x] user can see last Timezone from saved storage
 - [ ] user can select from recent start/end timestamps
 - [ ] user can choose to turn off auto-refresh upon loaded performance insights page
 - [ ] datetime picker widget
 - [ ] button for copy result URL
 - [ ] icons (extension icons, favicon)
-- [ ] polish UI with tailwind
+- [x] polish UI with tailwind
 - [x] enable tailwind jit
 - [ ] unit tests
 - [ ] build without cpx

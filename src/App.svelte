@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { appState } from './stores/app';
-
 	import DateRangeForm from './lib/DateRangeForm.svelte';
 	import Loading from './lib/Loading.svelte';
 	import Error from './lib/Error.svelte';
-
 	import Result from './lib/Result.svelte';
 
 	const appLoading = appState.load();
