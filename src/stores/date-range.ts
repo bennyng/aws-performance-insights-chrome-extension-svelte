@@ -6,8 +6,10 @@ import { dateFormat } from './constants';
 export const utcOffset = writable<number>(defaultUtcOffset());
 export const dateRange = writable<DateRange>(oneHour(defaultUtcOffset()));
 
-export const useOneHour = (): void => dateRange.set(oneHour(get(utcOffset)));
-export const useThreeHour = (): void => dateRange.set(threeHour(get(utcOffset)));
+export const useHour = (hour: number): void =>
+	dateRange.set(ago(hour * 60 * 60 * 1000, get(utcOffset)));
+
+export const useDay = (day: number): void => useHour(day * 24);
 
 function defaultUtcOffset(): number {
 	return DateTime.now().offset / 60; //london=1, hk=8
@@ -15,10 +17,6 @@ function defaultUtcOffset(): number {
 
 function oneHour(utcOffset: number): DateRange {
 	return ago(1 * 60 * 60 * 1000, utcOffset);
-}
-
-function threeHour(utcOffset: number): DateRange {
-	return ago(3 * 60 * 60 * 1000, utcOffset);
 }
 
 function ago(agoMs: number, utcOffset: number): DateRange {

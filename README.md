@@ -110,7 +110,7 @@ surge public my-project.surge.sh
 
 - [x] chrome extension PoC - able to load extension from public folder in Chrome
 - [x] detect and replace url with modified start/end timestamps
-- [ ] user can select timezone or be detected
+- [x] user can select timezone or be detected
 - [ ] user can select from recent start/end timestamps
 - [ ] user can choose to turn off auto-refresh upon loaded performance insights page
 - [ ] datetime picker widget
