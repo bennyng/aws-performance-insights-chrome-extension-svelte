@@ -1,30 +1,8 @@
 <script lang="ts">
-	import { resultState } from '../stores/result';
+	import { resultState, submit } from '../stores/result';
 	import Button from '../lib/components/Button.svelte';
 
 	$: submitDisabled = $resultState.status !== 'success';
-
-	async function submit() {
-		if (!$resultState || $resultState.status !== 'success') {
-			throw new Error('Invalid result URL');
-		}
-
-		const resultUrl = $resultState.data.resultUrl;
-
-		if (!chrome.tabs) {
-			window.location.assign(resultUrl);
-			return;
-		}
-
-		let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-		await chrome.tabs.update(tab.id, { url: resultUrl });
-		await chrome.scripting.executeScript({
-			target: { tabId: tab.id },
-			func: () => {
-				window.location.assign(resultUrl);
-			}
-		});
-	}
 
 	async function copyToClipboard() {
 		if ($resultState.status === 'success') {
@@ -43,7 +21,7 @@
 			{$resultState.data.resultUrl}
 		</div>
 
-		<div class="w-full flex flex-row justify-between mt-4">
+		<div class="w-full flex flex-row justify-between mt-2">
 			<Button disabled={submitDisabled} on:click={submit}>Open</Button>
 			<Button disabled={submitDisabled} on:click={copyToClipboard}>Copy</Button>
 		</div>

@@ -3,13 +3,23 @@ import type { DateRange } from './types';
 import { DateTime } from 'luxon';
 import { dateFormat } from './constants';
 
-export const utcOffset = writable<number>(defaultUtcOffset());
-export const dateRange = writable<DateRange>(oneHour(defaultUtcOffset()));
+export const utcOffset = writable<number>();
+
+export const dateRange = writable<DateRange>();
 
 export const useHour = (hour: number): void =>
 	dateRange.set(ago(hour * 60 * 60 * 1000, get(utcOffset)));
 
 export const useDay = (day: number): void => useHour(day * 24);
+
+export const init = async () => {
+	const items = await readFromStore();
+	const utcOffsetValue = items['utcOffset'] || defaultUtcOffset();
+	utcOffset.set(utcOffsetValue);
+	dateRange.set(oneHour(utcOffsetValue));
+};
+
+utcOffset.subscribe(() => writeToStore());
 
 function defaultUtcOffset(): number {
 	return DateTime.now().offset / 60; //london=1, hk=8
@@ -31,4 +41,24 @@ function ago(agoMs: number, utcOffset: number): DateRange {
 		startTime,
 		endTime
 	};
+}
+
+function readFromStore(): Promise<any> {
+	return new Promise((resolve, reject) => {
+		if (chrome.storage) {
+			try {
+				chrome.storage.sync.get(['utcOffset'], resolve);
+			} catch (error) {
+				reject(error);
+			}
+		} else {
+			resolve({});
+		}
+	});
+}
+
+function writeToStore() {
+	if (chrome.storage) {
+		chrome.storage.sync.set({ utcOffset: get(utcOffset) });
+	}
 }

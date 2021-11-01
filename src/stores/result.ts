@@ -1,22 +1,22 @@
-import { derived } from 'svelte/store';
+import { get, derived } from 'svelte/store';
 import { DateTime } from 'luxon';
 import type { ResultState } from './types';
 import { dateRange, utcOffset } from './date-range';
-import { sourceState } from './source';
+import { appState } from './app';
 import { dateFormat, epochRgex } from './constants';
 
 export const resultState = derived(
-	[sourceState, dateRange, utcOffset],
-	([$sourceState, $dateRange, $utcOffset]): ResultState => {
-		if (!$sourceState || $sourceState.status === 'loading') {
+	[appState, dateRange, utcOffset],
+	([$appState, $dateRange, $utcOffset]): ResultState => {
+		if (!$appState || $appState.status === 'loading') {
 			return { status: 'loading' };
 		}
 
-		if ($sourceState.status === 'unsupported_url') {
-			return { status: 'error', error: 'unsupported_url' };
+		if ($appState.status === 'error') {
+			return { status: 'error', error: $appState.error };
 		}
 
-		const match = $sourceState.data.sourceUrl.match(epochRgex);
+		const match = $appState.data.sourceUrl.match(epochRgex);
 
 		const format = dateFormat;
 		const options = {
@@ -43,3 +43,26 @@ export const resultState = derived(
 		return { status: 'error', error: 'Failed to generate' };
 	}
 );
+
+export const submit = async () => {
+	const state = get(resultState);
+	if (!state || state.status !== 'success') {
+		throw new Error('Invalid result URL');
+	}
+
+	const resultUrl = state.data.resultUrl;
+
+	if (!chrome.tabs) {
+		window.location.assign(resultUrl);
+		return;
+	}
+
+	let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+	await chrome.tabs.update(tab.id, { url: resultUrl });
+	await chrome.scripting.executeScript({
+		target: { tabId: tab.id },
+		func: () => {
+			window.location.assign(resultUrl);
+		}
+	});
+};

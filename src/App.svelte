@@ -1,28 +1,24 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { sourceState } from './stores/source';
-	import { resultState } from './stores/result';
+	import { appState } from './stores/app';
 
 	import DateRangeForm from './lib/DateRangeForm.svelte';
 	import Loading from './lib/Loading.svelte';
-	import UnsupportedURL from './lib/UnsupportedURL.svelte';
+	import Error from './lib/Error.svelte';
 
 	import Result from './lib/Result.svelte';
 
-	onMount(async () => {
-		sourceState.readUrl();
-	});
+	const promise = appState.load();
 </script>
 
-<main class="w-100 flex flex-col justify-center items-start mx-auto px-2 py-2">
-	{#if $sourceState.status === 'loading'}
+<main class="w-100 mx-auto px-2 py-2">
+	{#await promise}
 		<Loading />
-	{:else if $sourceState.status === 'unsupported_url'}
-		<UnsupportedURL />
-	{:else}
+	{:then}
 		<DateRangeForm />
 		<Result />
-	{/if}
+	{:catch error}
+		<Error />
+	{/await}
 </main>
 
 <style global lang="postcss">

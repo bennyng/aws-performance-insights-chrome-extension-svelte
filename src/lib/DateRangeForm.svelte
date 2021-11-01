@@ -21,6 +21,9 @@
 			<div class="col-span-2">
 				<TextField bind:value={$dateRange.endTime} id="endTime" label="End time" />
 			</div>
+		</div>
+
+		<div class="mt-2 grid grid-cols-2 gap-1">
 			<div class="col-span-2">
 				<Button small on:click={() => useHour(1)}>1h</Button>
 				<Button small on:click={() => useHour(3)}>3h</Button>
