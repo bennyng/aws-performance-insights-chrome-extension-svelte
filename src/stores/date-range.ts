@@ -12,11 +12,16 @@ export const useHour = (hour: number): void =>
 
 export const useDay = (day: number): void => useHour(day * 24);
 
-export const init = async () => {
+export const init = async ({ startTimeEpoch, endTimeEpoch }) => {
 	const items = await readFromStore();
 	const utcOffsetValue = items['utcOffset'] || defaultUtcOffset();
+
 	utcOffset.set(utcOffsetValue);
-	dateRange.set(oneHour(utcOffsetValue));
+
+	const options = { zone: `utc+${utcOffsetValue}` };
+	const startTime = DateTime.fromMillis(startTimeEpoch, options).toFormat(dateFormat);
+	const endTime = DateTime.fromMillis(endTimeEpoch, options).toFormat(dateFormat);
+	dateRange.set({ startTime, endTime });
 };
 
 utcOffset.subscribe(() => writeToStore());

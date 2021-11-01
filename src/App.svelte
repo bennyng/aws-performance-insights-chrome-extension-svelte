@@ -7,17 +7,17 @@
 
 	import Result from './lib/Result.svelte';
 
-	const promise = appState.load();
+	const appLoading = appState.load();
 </script>
 
 <main class="w-100 mx-auto px-2 py-2">
-	{#await promise}
+	{#await appLoading}
 		<Loading />
 	{:then}
 		<DateRangeForm />
 		<Result />
 	{:catch error}
-		<Error />
+		<Error {error} />
 	{/await}
 </main>
 

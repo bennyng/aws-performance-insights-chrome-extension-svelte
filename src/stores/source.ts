@@ -1,6 +1,10 @@
 import { epochRgex } from './constants';
 
-export const readUrl = async (): Promise<string> => {
+export const readUrl = async (): Promise<{
+	sourceUrl: string;
+	startTime: string;
+	endTime: string;
+}> => {
 	// FIXME remove articifial delay
 	await new Promise((res) => setTimeout(res, 1000));
 
@@ -18,7 +22,9 @@ export const readUrl = async (): Promise<string> => {
 
 	const match = sourceUrl.match(epochRgex);
 	if (match && match.length >= 5) {
-		return sourceUrl;
+		const startTime = match[2];
+		const endTime = match[3];
+		return { sourceUrl, startTime, endTime };
 	}
 
 	return Promise.reject('Unsupported URL');

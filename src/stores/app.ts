@@ -10,10 +10,9 @@ function createAppState() {
 		subscribe,
 
 		load: async () => {
-			await initDateRange();
-
 			try {
-				const sourceUrl = await readUrl();
+				const { sourceUrl, startTime, endTime } = await readUrl();
+				await initDateRange({ startTimeEpoch: +startTime, endTimeEpoch: +endTime });
 				const state: AppState = { status: 'loaded', data: { sourceUrl } };
 				set(state);
 				return state;
