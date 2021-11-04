@@ -61,8 +61,14 @@ export const submit = async () => {
 	await chrome.tabs.update(tab.id, { url: resultUrl });
 	await chrome.scripting.executeScript({
 		target: { tabId: tab.id },
-		func: () => {
-			window.location.assign(resultUrl);
+		args: [resultUrl],
+		func: (url) => {
+			window.location.href = url;
+			window.location.reload();
+			const toggleButton = document.getElementById('awsui-toggle-0');
+			if ((toggleButton as any).checked) {
+				toggleButton.click();
+			}
 		}
 	});
 };

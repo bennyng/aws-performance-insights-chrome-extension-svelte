@@ -22,6 +22,7 @@ export const init = async ({ startTimeEpoch, endTimeEpoch }) => {
 	const startTime = DateTime.fromMillis(startTimeEpoch, options).toFormat(dateFormat);
 	const endTime = DateTime.fromMillis(endTimeEpoch, options).toFormat(dateFormat);
 	dateRange.set({ startTime, endTime });
+	// dateRange.set(oneHour(utcOffsetValue));
 };
 
 utcOffset.subscribe(() => writeToStore());

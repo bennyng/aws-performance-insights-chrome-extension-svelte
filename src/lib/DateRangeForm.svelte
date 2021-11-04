@@ -33,7 +33,7 @@
 			<div class="col-span-2">
 				<Button small on:click={() => useDay(1)}>1D</Button>
 				<Button small on:click={() => useDay(7)}>7D</Button>
-				<Button small on:click={() => useDay(30)}>30D</Button>
+				<Button small on:click={() => useDay(20)}>20D</Button>
 			</div>
 		</div>
 	</div>

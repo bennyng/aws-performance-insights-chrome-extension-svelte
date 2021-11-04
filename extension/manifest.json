@@ -12,5 +12,12 @@
 			"48": "/images/get_started48.png",
 			"128": "/images/get_started128.png"
 		}
-	}
+	},
+	"content_scripts": [
+		{
+			"matches": ["<all_urls>"],
+			"run_at": "document_end",
+			"js": ["content.js"]
+		}
+	]
 }

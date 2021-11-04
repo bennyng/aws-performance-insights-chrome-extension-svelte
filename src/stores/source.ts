@@ -21,6 +21,7 @@ export const readUrl = async (): Promise<{
 	}
 
 	const match = sourceUrl.match(epochRgex);
+
 	if (match && match.length >= 5) {
 		const startTime = match[2];
 		const endTime = match[3];
