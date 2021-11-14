@@ -3,12 +3,6 @@
 	import Button from '../lib/components/Button.svelte';
 
 	$: submitDisabled = $resultState.status !== 'success';
-
-	async function copyToClipboard() {
-		if ($resultState.status === 'success') {
-			// $resultState.data.resultUrl
-		}
-	}
 </script>
 
 <div class="px-0 mt-4">
@@ -21,9 +15,8 @@
 			{$resultState.data.resultUrl}
 		</div>
 
-		<div class="w-full flex flex-row justify-between mt-2">
+		<div class="w-full flex flex-row justify-end mt-2">
 			<Button disabled={submitDisabled} on:click={submit}>Open</Button>
-			<Button disabled={submitDisabled} on:click={copyToClipboard}>Copy</Button>
 		</div>
 	{:else if $resultState.status === 'error'}
 		<h3>{$resultState.error}</h3>

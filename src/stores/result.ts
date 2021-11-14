@@ -65,7 +65,7 @@ export const submit = async () => {
 
 	if (!chrome.tabs) {
 		addHistory(get(utcOffset), get(dateRange).startTime, get(dateRange).endTime);
-		// window.location.assign(resultUrl);
+		window.location.assign(resultUrl);
 		return;
 	}
 

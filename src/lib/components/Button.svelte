@@ -23,7 +23,7 @@
 
 <style lang="postcss">
 	.small {
-		@apply py-1 px-1 text-xs;
+		@apply py-1 px-2 text-xs;
 	}
 	.clear {
 		@apply bg-transparent;

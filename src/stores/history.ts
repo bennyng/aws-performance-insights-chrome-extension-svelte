@@ -44,12 +44,12 @@ export const add = (utcOffset: number, startTime: string, endTime: string) => {
 			createTime: DateTime.now().toMillis()
 		}
 	]);
-
 	writeStore();
 };
 
 export const remove = (uuid: string) => {
 	records.set([...get(records).filter((v) => v.uuid !== uuid)]);
+	writeStore();
 };
 
 export const open = (uuid: string) => {

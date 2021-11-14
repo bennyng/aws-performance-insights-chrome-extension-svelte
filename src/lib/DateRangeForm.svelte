@@ -11,32 +11,39 @@
 </div>
 
 <div class="mt-2 md:mt-0">
-	<div class="shadow overflow-hidden bg-white-md px-2 py-2">
-		<div class="grid grid-cols-4 gap-2">
-			<div class="col-span-2">
-				<TextField bind:value={$utcOffset} id="utcOffset" label="Timezone (GMT)" />
-			</div>
-			<div class="col-span-4">
-				<TextField bind:value={$dateRange.startTime} id="startTime" label="Start time" />
-			</div>
-			<div class="col-span-4">
-				<TextField bind:value={$dateRange.endTime} id="endTime" label="End time" />
-			</div>
-		</div>
-
-		<div class="flex justify-between items-center mt-2">
-			<div>
-				<Button small secondary on:click={() => useHour(1)}>1h</Button>
-				<Button small secondary on:click={() => useHour(3)}>3h</Button>
-				<Button small secondary on:click={() => useHour(6)}>6h</Button>
-				<Button small secondary on:click={() => useHour(12)}>12h</Button>
-			</div>
-			<div>
-				<Button small secondary on:click={() => useDay(1)}>1d</Button>
-				<Button small secondary on:click={() => useDay(7)}>7d</Button>
+	<div class="shadow overflow-hidden bg-white-md py-2">
+		<div class="px-2">
+			<div class="grid grid-cols-4 gap-2">
+				<div class="col-span-2">
+					<TextField bind:value={$utcOffset} id="utcOffset" label="Timezone (GMT)" />
+				</div>
+				<div class="col-span-4">
+					<TextField bind:value={$dateRange.startTime} id="startTime" label="Start time" />
+				</div>
+				<div class="col-span-4">
+					<TextField bind:value={$dateRange.endTime} id="endTime" label="End time" />
+				</div>
 			</div>
 		</div>
 
-		<History />
+		<div class="px-2 mt-4">
+			<div class="text-xs font-bold">Preset</div>
+			<div class="flex justify-between items-center">
+				<div>
+					<Button small secondary on:click={() => useHour(1)}>1h</Button>
+					<Button small secondary on:click={() => useHour(3)}>3h</Button>
+					<Button small secondary on:click={() => useHour(6)}>6h</Button>
+					<Button small secondary on:click={() => useHour(12)}>12h</Button>
+				</div>
+				<div>
+					<Button small secondary on:click={() => useDay(1)}>1d</Button>
+					<Button small secondary on:click={() => useDay(7)}>7d</Button>
+				</div>
+			</div>
+		</div>
+
+		<div class="px-2 mt-4">
+			<History />
+		</div>
 	</div>
 </div>
