@@ -4,6 +4,7 @@
 	import Loading from './lib/Loading.svelte';
 	import Error from './lib/Error.svelte';
 	import Result from './lib/Result.svelte';
+	import Signature from '$lib/components/Signature.svelte';
 
 	const appLoading = appState.load();
 </script>
@@ -14,10 +15,10 @@
 	{:then}
 		<DateRangeForm />
 		<Result />
+		<Signature />
 	{:catch error}
 		<Error {error} />
 	{/await}
-	<div class="absolute left-0 bottom-0 text-xs italic ml-2 mb-2">Released on 2021-11-14 ❤️</div>
 </main>
 
 <style global lang="postcss">
