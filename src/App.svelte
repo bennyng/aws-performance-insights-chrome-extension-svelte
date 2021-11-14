@@ -4,7 +4,7 @@
 	import Loading from './lib/Loading.svelte';
 	import Error from './lib/Error.svelte';
 	import Result from './lib/Result.svelte';
-	import Signature from '$lib/components/Signature.svelte';
+	import Signature from './lib/components/Signature.svelte';
 
 	const appLoading = appState.load();
 </script>
