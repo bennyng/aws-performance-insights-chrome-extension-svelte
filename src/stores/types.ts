@@ -20,3 +20,11 @@ export type ResultState =
 	| { status: 'loading' }
 	| { status: 'success'; data: ResultData }
 	| { status: 'error'; error: string };
+
+export type HistoryRecord = {
+	uuid: string;
+	utcOffset: number;
+	startTime: string;
+	endTime: string;
+	createTime: number;
+};

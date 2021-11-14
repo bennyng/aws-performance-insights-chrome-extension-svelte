@@ -1,7 +1,11 @@
-import { get, writable } from 'svelte/store';
-import type { DateRange } from './types';
 import { DateTime } from 'luxon';
+import {
+	get,
+	writable
+} from 'svelte/store';
+
 import { dateFormat } from './constants';
+import type { DateRange } from './types';
 
 export const utcOffset = writable<number>();
 
@@ -13,7 +17,7 @@ export const useHour = (hour: number): void =>
 export const useDay = (day: number): void => useHour(day * 24);
 
 export const init = async ({ startTimeEpoch, endTimeEpoch }) => {
-	const items = await readFromStore();
+	const items = await readStore();
 	const utcOffsetValue = items['utcOffset'] || defaultUtcOffset();
 
 	utcOffset.set(utcOffsetValue);
@@ -22,17 +26,12 @@ export const init = async ({ startTimeEpoch, endTimeEpoch }) => {
 	const startTime = DateTime.fromMillis(startTimeEpoch, options).toFormat(dateFormat);
 	const endTime = DateTime.fromMillis(endTimeEpoch, options).toFormat(dateFormat);
 	dateRange.set({ startTime, endTime });
-	// dateRange.set(oneHour(utcOffsetValue));
 };
 
-utcOffset.subscribe(() => writeToStore());
+utcOffset.subscribe(() => writeStore());
 
 function defaultUtcOffset(): number {
 	return DateTime.now().offset / 60; //london=1, hk=8
-}
-
-function oneHour(utcOffset: number): DateRange {
-	return ago(1 * 60 * 60 * 1000, utcOffset);
 }
 
 function ago(agoMs: number, utcOffset: number): DateRange {
@@ -49,7 +48,7 @@ function ago(agoMs: number, utcOffset: number): DateRange {
 	};
 }
 
-function readFromStore(): Promise<any> {
+function readStore(): Promise<any> {
 	return new Promise((resolve, reject) => {
 		if (chrome.storage) {
 			try {
@@ -63,7 +62,7 @@ function readFromStore(): Promise<any> {
 	});
 }
 
-function writeToStore() {
+function writeStore() {
 	if (chrome.storage) {
 		chrome.storage.sync.set({ utcOffset: get(utcOffset) });
 	}

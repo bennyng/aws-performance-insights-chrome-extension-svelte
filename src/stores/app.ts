@@ -1,6 +1,8 @@
 import { writable } from 'svelte/store';
-import { readUrl } from './source';
+
 import { init as initDateRange } from './date-range';
+import { init as initHistory } from './history';
+import { readUrl } from './source';
 import type { AppState } from './types';
 
 function createAppState() {
@@ -12,7 +14,10 @@ function createAppState() {
 		load: async () => {
 			try {
 				const { sourceUrl, startTime, endTime } = await readUrl();
+
 				await initDateRange({ startTimeEpoch: +startTime, endTimeEpoch: +endTime });
+				await initHistory();
+
 				const state: AppState = { status: 'loaded', data: { sourceUrl } };
 				set(state);
 				return state;

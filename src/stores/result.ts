@@ -1,9 +1,20 @@
-import { get, derived } from 'svelte/store';
 import { DateTime } from 'luxon';
-import type { ResultState } from './types';
-import { dateRange, utcOffset } from './date-range';
+import {
+	derived,
+	get
+} from 'svelte/store';
+
 import { appState } from './app';
-import { dateFormat, epochRgex } from './constants';
+import {
+	dateFormat,
+	epochRgex
+} from './constants';
+import {
+	dateRange,
+	utcOffset
+} from './date-range';
+import { add as addHistory } from './history';
+import type { ResultState } from './types';
 
 export const resultState = derived(
 	[appState, dateRange, utcOffset],
@@ -53,7 +64,8 @@ export const submit = async () => {
 	const resultUrl = state.data.resultUrl;
 
 	if (!chrome.tabs) {
-		window.location.assign(resultUrl);
+		addHistory(get(utcOffset), get(dateRange).startTime, get(dateRange).endTime);
+		// window.location.assign(resultUrl);
 		return;
 	}
 
@@ -71,4 +83,5 @@ export const submit = async () => {
 			}
 		}
 	});
+	addHistory(get(utcOffset), get(dateRange).startTime, get(dateRange).endTime);
 };

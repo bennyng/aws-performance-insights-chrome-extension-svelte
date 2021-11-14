@@ -2,6 +2,7 @@
 	import { dateRange, utcOffset, useHour, useDay } from '../stores/date-range';
 	import TextField from './components/TextField.svelte';
 	import Button from './components/Button.svelte';
+	import History from './History.svelte';
 </script>
 
 <div class="px-0">
@@ -23,18 +24,19 @@
 			</div>
 		</div>
 
-		<div class="mt-2 grid grid-cols-2 gap-1">
-			<div class="col-span-2">
-				<Button small on:click={() => useHour(1)}>1h</Button>
-				<Button small on:click={() => useHour(3)}>3h</Button>
-				<Button small on:click={() => useHour(6)}>6h</Button>
-				<Button small on:click={() => useHour(12)}>12h</Button>
+		<div class="flex justify-between items-center mt-2">
+			<div>
+				<Button small secondary on:click={() => useHour(1)}>1h</Button>
+				<Button small secondary on:click={() => useHour(3)}>3h</Button>
+				<Button small secondary on:click={() => useHour(6)}>6h</Button>
+				<Button small secondary on:click={() => useHour(12)}>12h</Button>
 			</div>
-			<div class="col-span-2">
-				<Button small on:click={() => useDay(1)}>1D</Button>
-				<Button small on:click={() => useDay(7)}>7D</Button>
-				<Button small on:click={() => useDay(20)}>20D</Button>
+			<div>
+				<Button small secondary on:click={() => useDay(1)}>1d</Button>
+				<Button small secondary on:click={() => useDay(7)}>7d</Button>
 			</div>
 		</div>
+
+		<History />
 	</div>
 </div>

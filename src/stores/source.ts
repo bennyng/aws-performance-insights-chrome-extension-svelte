@@ -6,7 +6,7 @@ export const readUrl = async (): Promise<{
 	endTime: string;
 }> => {
 	// FIXME remove articifial delay
-	await new Promise((res) => setTimeout(res, 1000));
+	await new Promise((res) => setTimeout(res, 500));
 
 	let sourceUrl;
 
