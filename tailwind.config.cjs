@@ -7,7 +7,7 @@ module.exports = {
 		extend: {
 			colors: {
 				awesome: {
-					DEFAULT: '#f72585'
+					DEFAULT: '#459cf8'
 				}
 			},
 			spacing: {
