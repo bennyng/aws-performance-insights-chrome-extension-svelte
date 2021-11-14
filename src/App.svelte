@@ -8,7 +8,7 @@
 	const appLoading = appState.load();
 </script>
 
-<main class="w-100 mx-auto px-2 py-2">
+<main class="w-100 mx-auto px-2 py-2 relative">
 	{#await appLoading}
 		<Loading />
 	{:then}
@@ -17,6 +17,7 @@
 	{:catch error}
 		<Error {error} />
 	{/await}
+	<div class="absolute left-0 bottom-0 text-xs italic ml-2 mb-2">Released on 2021-11-14 ❤️</div>
 </main>
 
 <style global lang="postcss">

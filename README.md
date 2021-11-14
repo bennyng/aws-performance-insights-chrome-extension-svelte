@@ -1,13 +1,13 @@
+# Install deps
+
+```bash
+npm install
+```
+
 # Run on local
 
 ```bash
 npm run dev
-```
-
-# Build
-
-```bash
-npm run build
 ```
 
 # Build
