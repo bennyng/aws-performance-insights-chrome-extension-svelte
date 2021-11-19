@@ -1,3 +1,10 @@
+# what is it ?
+
+It does two simple things in AWS performance insights
+
+- turn off auto-refresh by default
+- allows you to set custom start/end time
+
 # Install deps
 
 ```bash
