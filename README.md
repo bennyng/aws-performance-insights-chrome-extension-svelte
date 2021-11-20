@@ -1,4 +1,4 @@
-# what is it ?
+# What is it ?
 
 It does two simple things in AWS performance insights
 
@@ -23,13 +23,9 @@ npm run dev
 npm run build
 ```
 
-# Install development build
+# Install from releases
 
-```sh
-npm run build
-
-# installable extension locates in public folder
-```
+[Releases](https://github.com/bennyng/aws-performance-insights-chrome-extension-svelte/releases)
 
 Follow guide here
 https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/
