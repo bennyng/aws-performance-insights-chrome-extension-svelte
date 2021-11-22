@@ -23,6 +23,10 @@ npm run dev
 npm run build
 ```
 
+# Install from Chrome Store
+
+https://chrome.google.com/webstore/detail/performance-insights-addo/pjddnibodmbiephkmmmlhjgmedmcidcl?hl=en-GB&authuser=0
+
 # Install from releases
 
 [Releases](https://github.com/bennyng/aws-performance-insights-chrome-extension-svelte/releases)
