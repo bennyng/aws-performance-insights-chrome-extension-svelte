@@ -1,9 +1,9 @@
 {
 	"name": "Performance Insights Addons",
 	"description": "AWS Performance Insights Addons",
-	"version": "0.0.0.1",
+	"version": "0.0.0.2",
 	"manifest_version": 3,
-	"permissions": ["storage", "activeTab", "scripting", "tabs"],
+	"permissions": ["storage", "activeTab", "scripting"],
 	"action": {
 		"default_popup": "index.html",
 		"default_icon": {
